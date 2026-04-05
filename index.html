@@ -1,89 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PPL 6-Day Workout Plan — Aditya</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; padding: 2rem 1rem; }
-    .container { max-width: 820px; margin: 0 auto; }
-    h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-    .subtitle { font-size: 13px; color: #888780; margin-bottom: 1rem; }
-    .hint { font-size: 12px; color: #5f5e5a; margin-bottom: 1.25rem; background: #fff; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 8px 14px; display: inline-block; }
-    .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #888780; margin-bottom: 0.75rem; }
-    .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
-    .tab { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 20px; border: 0.5px solid #b4b2a9; cursor: pointer; background: #fff; color: #5f5e5a; transition: all 0.15s; white-space: nowrap; }
-    .tab:hover { background: #f1efe8; }
-    .tab.active-push { background: #cecbf6; border-color: #7f77dd; color: #26215c; }
-    .tab.active-pull { background: #9fe1cb; border-color: #1d9e75; color: #04342c; }
-    .tab.active-legs { background: #fac775; border-color: #ba7517; color: #412402; }
-    .tab.active-rest { background: #d3d1c7; border-color: #888780; color: #2c2c2a; }
-    .day-panel { display: none; }
-    .day-panel.active { display: block; }
-    .day-header { border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
-    .push-header { background: #eeedfe; border-left: 4px solid #7f77dd; }
-    .pull-header { background: #e1f5ee; border-left: 4px solid #1d9e75; }
-    .legs-header { background: #faeeda; border-left: 4px solid #ba7517; }
-    .rest-header { background: #f1efe8; border-left: 4px solid #888780; }
-    .header-title { font-size: 16px; font-weight: 600; }
-    .header-meta { display: flex; gap: 16px; margin-top: 6px; flex-wrap: wrap; }
-    .meta-item { font-size: 12px; color: #5f5e5a; }
-    .meta-val { font-weight: 600; color: #1a1a18; }
-    .card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; overflow: hidden; }
-    table { width: 100%; border-collapse: collapse; }
-    thead tr { border-bottom: 0.5px solid #d3d1c7; background: #fafaf8; }
-    th { font-size: 11px; font-weight: 600; color: #888780; text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 12px; text-align: left; }
-    td { font-size: 13px; padding: 11px 12px; border-bottom: 0.5px solid #f0efe8; vertical-align: middle; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #fafaf8; }
-    .ex-name { font-weight: 600; color: #1a1a18; display: block; margin-bottom: 3px; }
-    .ex-tip { font-size: 11px; color: #888780; line-height: 1.5; display: block; }
-    .ex-badges { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
-    .badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-    .b-compound { background: #cecbf6; color: #26215c; }
-    .b-iso { background: #d3d1c7; color: #2c2c2a; }
-    .b-core { background: #9fe1cb; color: #04342c; }
-    .watch-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: #b91c1c; background: #fff1f2; border: 0.5px solid #fecaca; border-radius: 20px; padding: 3px 10px; cursor: pointer; transition: all 0.15s; }
-    .watch-btn:hover { background: #fee2e2; border-color: #fca5a5; }
-    .watch-btn .play-icon { width: 0; height: 0; border-style: solid; border-width: 4px 0 4px 7px; border-color: transparent transparent transparent #b91c1c; display: inline-block; flex-shrink: 0; }
-    .sets-col { white-space: nowrap; color: #5f5e5a; font-size: 13px; font-weight: 500; width: 110px; }
-    .rest-col { white-space: nowrap; color: #888780; font-size: 12px; width: 60px; }
-    .finisher-box { background: #f5f4f0; border-radius: 8px; padding: 0.75rem 1rem; margin-top: 1rem; display: flex; align-items: flex-start; gap: 10px; }
-    .finisher-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-    .finisher-text { font-size: 12px; color: #5f5e5a; line-height: 1.6; }
-    .week-note { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 0.75rem 1rem; margin-top: 1.25rem; font-size: 12px; color: #5f5e5a; line-height: 1.6; }
-    .week-note strong { color: #1a1a18; font-weight: 600; }
-    .rest-box { background: #f1efe8; border-radius: 8px; padding: 1rem 1.25rem; font-size: 13px; color: #5f5e5a; line-height: 2; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PPL 6-Day Plan — Aditya</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a18;min-height:100vh;padding:2rem 1rem}
+.container{max-width:860px;margin:0 auto}
+h1{font-size:20px;font-weight:600;margin-bottom:4px}
+.subtitle{font-size:13px;color:#888780;margin-bottom:1rem}
+.hint{font-size:12px;color:#5f5e5a;margin-bottom:1.25rem;background:#fff;border:0.5px solid #d3d1c7;border-radius:8px;padding:8px 14px;display:inline-flex;align-items:center;gap:8px}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#888780;margin-bottom:.75rem}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab{font-size:12px;font-weight:500;padding:6px 14px;border-radius:20px;border:0.5px solid #b4b2a9;cursor:pointer;background:#fff;color:#5f5e5a;transition:all .15s;white-space:nowrap}
+.tab:hover{background:#f1efe8}
+.tab.active-push{background:#cecbf6;border-color:#7f77dd;color:#26215c}
+.tab.active-pull{background:#9fe1cb;border-color:#1d9e75;color:#04342c}
+.tab.active-legs{background:#fac775;border-color:#ba7517;color:#412402}
+.tab.active-rest{background:#d3d1c7;border-color:#888780;color:#2c2c2a}
+.tab.active-history{background:#fce7f3;border-color:#db2777;color:#831843}
+.day-panel{display:none}
+.day-panel.active{display:block}
+.day-header{border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+.push-header{background:#eeedfe;border-left:4px solid #7f77dd}
+.pull-header{background:#e1f5ee;border-left:4px solid #1d9e75}
+.legs-header{background:#faeeda;border-left:4px solid #ba7517}
+.rest-header{background:#f1efe8;border-left:4px solid #888780}
+.header-title{font-size:16px;font-weight:600}
+.header-meta{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap}
+.meta-item{font-size:12px;color:#5f5e5a}
+.meta-val{font-weight:600;color:#1a1a18}
+.card{background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead tr{border-bottom:0.5px solid #d3d1c7;background:#fafaf8}
+th{font-size:11px;font-weight:600;color:#888780;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left}
+td{font-size:13px;padding:11px 12px;border-bottom:0.5px solid #f0efe8;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafaf8}
+.ex-name{font-weight:600;color:#1a1a18;display:block;margin-bottom:3px}
+.ex-tip{font-size:11px;color:#888780;line-height:1.5;display:block;margin-bottom:5px}
+.ex-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.b-compound{background:#cecbf6;color:#26215c}
+.b-iso{background:#d3d1c7;color:#2c2c2a}
+.b-core{background:#9fe1cb;color:#04342c}
+.watch-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#b91c1c;background:#fff1f2;border:0.5px solid #fecaca;border-radius:20px;padding:3px 10px;cursor:pointer;transition:all .15s}
+.watch-btn:hover{background:#fee2e2}
+.play-icon{width:0;height:0;border-style:solid;border-width:4px 0 4px 7px;border-color:transparent transparent transparent #b91c1c;display:inline-block;flex-shrink:0}
+.log-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#047857;background:#ecfdf5;border:0.5px solid #6ee7b7;border-radius:20px;padding:3px 10px;cursor:pointer;transition:all .15s}
+.log-btn:hover{background:#d1fae5}
+.last-logged{font-size:10px;color:#6b7280;margin-top:3px;display:block;font-style:italic}
+.sets-col{white-space:nowrap;color:#5f5e5a;font-size:13px;font-weight:500;width:110px}
+.rest-col{white-space:nowrap;color:#888780;font-size:12px;width:60px}
+.finisher-box{background:#f5f4f0;border-radius:8px;padding:.75rem 1rem;margin-top:1rem;display:flex;align-items:flex-start;gap:10px}
+.finisher-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.finisher-text{font-size:12px;color:#5f5e5a;line-height:1.6}
+.week-note{background:#fff;border:0.5px solid #d3d1c7;border-radius:8px;padding:.75rem 1rem;margin-top:1.25rem;font-size:12px;color:#5f5e5a;line-height:1.6}
+.week-note strong{color:#1a1a18;font-weight:600}
+.rest-box{background:#f1efe8;border-radius:8px;padding:1rem 1.25rem;font-size:13px;color:#5f5e5a;line-height:2}
 
-    /* VIDEO MODAL */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 9999; align-items: center; justify-content: center; padding: 1rem; }
-    .modal-overlay.open { display: flex; }
-    .modal-box { background: #111; border-radius: 14px; overflow: hidden; width: 100%; max-width: 700px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #1f1f1f; }
-    .modal-title { font-size: 14px; font-weight: 600; color: #fff; flex: 1; padding-right: 12px; }
-    .modal-close { background: #333; border: none; cursor: pointer; color: #ccc; font-size: 16px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .modal-close:hover { background: #555; color: #fff; }
-    .modal-video { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; }
-    .modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-    .modal-footer { padding: 10px 16px; background: #1f1f1f; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-    .modal-tip { font-size: 12px; color: #aaa; line-height: 1.5; flex: 1; }
-    .modal-yt-link { font-size: 11px; font-weight: 600; color: #f87171; text-decoration: none; white-space: nowrap; margin-top: 1px; }
-    .modal-yt-link:hover { text-decoration: underline; }
+/* HISTORY PANEL */
+.history-empty{text-align:center;padding:3rem 1rem;color:#888780;font-size:14px}
+.history-date-group{margin-bottom:1.5rem}
+.history-date-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#888780;margin-bottom:.6rem;padding-bottom:.4rem;border-bottom:0.5px solid #d3d1c7}
+.history-entry{background:#fff;border:0.5px solid #d3d1c7;border-radius:10px;padding:.75rem 1rem;margin-bottom:.5rem;display:flex;align-items:flex-start;gap:12px}
+.history-day-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.hb-push{background:#cecbf6;color:#26215c}
+.hb-pull{background:#9fe1cb;color:#04342c}
+.hb-legs{background:#fac775;color:#412402}
+.history-entry-content{flex:1;min-width:0}
+.history-ex-name{font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:3px}
+.history-sets{font-size:12px;color:#5f5e5a;line-height:1.6}
+.history-notes{font-size:11px;color:#888780;margin-top:3px;font-style:italic}
+.history-delete{background:none;border:none;cursor:pointer;color:#d3d1c7;font-size:16px;padding:2px 4px;border-radius:4px;flex-shrink:0;line-height:1}
+.history-delete:hover{color:#ef4444;background:#fee2e2}
+.clear-all-btn{display:block;margin:1rem auto 0;font-size:12px;color:#ef4444;background:none;border:0.5px solid #fca5a5;border-radius:8px;padding:6px 16px;cursor:pointer}
+.clear-all-btn:hover{background:#fee2e2}
 
-    @media (max-width: 600px) {
-      body { padding: 1rem 0.75rem; }
-      th, td { padding: 8px 8px; }
-      .sets-col { width: 85px; }
-      .rest-col { width: 48px; }
-    }
-  </style>
+/* VIDEO MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal-box{background:#111;border-radius:14px;overflow:hidden;width:100%;max-width:700px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#1f1f1f}
+.modal-title{font-size:14px;font-weight:600;color:#fff;flex:1;padding-right:12px}
+.modal-close{background:#333;border:none;cursor:pointer;color:#ccc;font-size:16px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-close:hover{background:#555;color:#fff}
+.modal-video{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+.modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.modal-footer{padding:10px 16px;background:#1f1f1f;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.modal-tip{font-size:12px;color:#aaa;line-height:1.5;flex:1}
+.modal-yt-link{font-size:11px;font-weight:600;color:#f87171;text-decoration:none;white-space:nowrap}
+.modal-yt-link:hover{text-decoration:underline}
+
+/* LOG MODAL */
+.log-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998;align-items:center;justify-content:center;padding:1rem}
+.log-overlay.open{display:flex}
+.log-box{background:#fff;border-radius:16px;width:100%;max-width:480px;overflow:hidden;max-height:90vh;display:flex;flex-direction:column}
+.log-header{padding:14px 18px;background:#f9f9f7;border-bottom:0.5px solid #e5e5e0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.log-title{font-size:15px;font-weight:600;color:#1a1a18}
+.log-close{background:none;border:none;cursor:pointer;color:#888;font-size:18px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.log-close:hover{background:#f1efe8;color:#1a1a18}
+.log-body{padding:16px 18px;overflow-y:auto;flex:1}
+.log-prev{background:#ecfdf5;border:0.5px solid #6ee7b7;border-radius:8px;padding:8px 12px;margin-bottom:14px;font-size:12px;color:#065f46;display:none}
+.log-prev.show{display:block}
+.log-prev strong{font-weight:600}
+.log-section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#888780;margin-bottom:8px}
+.set-rows{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.set-row{display:grid;grid-template-columns:28px 1fr 1fr 28px;gap:6px;align-items:center}
+.set-num{font-size:12px;font-weight:600;color:#888780;text-align:center}
+.set-input{border:0.5px solid #d3d1c7;border-radius:8px;padding:7px 10px;font-size:13px;color:#1a1a18;width:100%;background:#fff;text-align:center}
+.set-input:focus{outline:none;border-color:#1d9e75;box-shadow:0 0 0 3px rgba(29,158,117,.1)}
+.set-input::placeholder{color:#b4b2a9;font-size:12px}
+.del-set{background:none;border:none;cursor:pointer;color:#d3d1c7;font-size:16px;display:flex;align-items:center;justify-content:center;border-radius:4px;height:28px}
+.del-set:hover{color:#ef4444;background:#fee2e2}
+.set-header{display:grid;grid-template-columns:28px 1fr 1fr 28px;gap:6px;margin-bottom:4px}
+.set-header span{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#888780;text-align:center}
+.add-set-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#047857;background:#ecfdf5;border:0.5px dashed #6ee7b7;border-radius:8px;padding:7px 14px;cursor:pointer;width:100%;justify-content:center;margin-bottom:14px}
+.add-set-btn:hover{background:#d1fae5}
+.log-notes{width:100%;border:0.5px solid #d3d1c7;border-radius:8px;padding:8px 10px;font-size:13px;color:#1a1a18;resize:vertical;min-height:60px;font-family:inherit}
+.log-notes:focus{outline:none;border-color:#1d9e75;box-shadow:0 0 0 3px rgba(29,158,117,.1)}
+.log-notes::placeholder{color:#b4b2a9}
+.log-footer{padding:12px 18px;border-top:0.5px solid #e5e5e0;background:#f9f9f7;flex-shrink:0;display:flex;gap:8px}
+.save-btn{flex:1;background:#1a1a18;color:#fff;border:none;border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer}
+.save-btn:hover{background:#333}
+.cancel-btn{background:#fff;color:#888780;border:0.5px solid #d3d1c7;border-radius:10px;padding:10px 16px;font-size:14px;cursor:pointer}
+.cancel-btn:hover{background:#f1efe8}
+
+@media(max-width:600px){body{padding:1rem .75rem}th,td{padding:8px 8px}.sets-col{width:85px}.rest-col{width:48px}}
+</style>
 </head>
 <body>
 <div class="container">
   <h1>Push · Pull · Legs — 6-Day Plan</h1>
   <div class="subtitle">Aditya · 94 kg · Fat Loss · Full Gym · Morning Workouts</div>
-  <div class="hint">▶ Click the red Watch button on any exercise to see a form tutorial</div>
+  <div class="hint">
+    <span>▶ <strong>Watch</strong> — form tutorial &nbsp;|&nbsp; ✎ <strong>Log</strong> — track your sets &nbsp;|&nbsp; 📊 <strong>History</strong> — view progress</span>
+  </div>
 
   <div class="section-label">Select your day</div>
   <div class="tabs">
@@ -94,8 +147,10 @@
     <div class="tab" onclick="show('pull-b',this,'active-pull')">FRI · Pull B</div>
     <div class="tab" onclick="show('legs-b',this,'active-legs')">SAT · Legs B</div>
     <div class="tab" onclick="show('rest',this,'active-rest')">SUN · Rest</div>
+    <div class="tab" onclick="show('history',this,'active-history')">📊 History</div>
   </div>
 
+  <!-- helper macro to build a row -->
   <!-- PUSH A -->
   <div class="day-panel active" id="push-a">
     <div class="day-header push-header">
@@ -106,21 +161,19 @@
         <div class="meta-item">Intensity: <span class="meta-val">Moderate–High</span></div>
       </div>
     </div>
-    <div class="card">
-      <table>
-        <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
-        <tbody>
-          <tr><td><span class="ex-name">Flat Barbell Bench Press</span><span class="ex-tip">Keep shoulder blades pinched back. Don't bounce off chest.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('dh_6nJDFMgY','Flat Barbell Bench Press','Keep shoulder blades pinched. Lower slowly, don\'t bounce off chest.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 10</td><td class="rest-col">90s</td></tr>
-          <tr><td><span class="ex-name">Incline DB Press</span><span class="ex-tip">30–45° incline. Controls upper chest. Lower weight slowly (3 sec).</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('0G2_XV7slIg','Incline Dumbbell Press','30–45° incline. Controls upper chest. Lower weight slowly in 3 sec.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Cable Chest Fly</span><span class="ex-tip">High-to-low cable. Slight bend in elbows throughout. Squeeze hard at peak.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('Iwe6AmxVf7o','Cable Chest Fly','High-to-low cable. Slight bend in elbows. Squeeze hard at peak contraction.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">60s</td></tr>
-          <tr><td><span class="ex-name">DB Shoulder Press</span><span class="ex-tip">Don't lock out at top. Control the descent. Elbows at 90° at bottom.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('qEwKCR5JCog','Dumbbell Shoulder Press','Don\'t lock out at the top. Control the descent. Elbows at 90° at bottom.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 12</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Lateral Raises</span><span class="ex-tip">Lead with elbows, not wrists. Go light — form is everything here.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('XPPfXQUEwcQ','Lateral Raises Proper Form','Lead with elbows, not wrists. Go light — form is everything here.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Tricep Pushdown (cable)</span><span class="ex-tip">Lock elbows at sides. Full extension at bottom. Slow negative.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('2-LAMcpzODU','Cable Tricep Pushdown','Lock elbows at sides. Full extension at bottom. Slow negative rep.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Overhead Tricep Extension</span><span class="ex-tip">Single cable or EZ bar. Full stretch at top = long head activation.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('_gsUck-7M74','Overhead Tricep Extension','Single cable or EZ bar. Full stretch at top activates the long head.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 12</td><td class="rest-col">45s</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="finisher-box"><div class="finisher-dot" style="background:#7f77dd;"></div><div class="finisher-text"><strong>Finisher (10 min):</strong> Treadmill intervals — 1 min sprint (speed 10–12) + 1 min walk × 5 rounds. Burns an extra 120–150 kcal.</div></div>
+    <div class="card"><table>
+      <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
+      <tbody id="push-a-body">
+        <tr><td><span class="ex-name">Flat Barbell Bench Press</span><span class="ex-tip">Keep shoulder blades pinched back. Don't bounce off chest.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('dh_6nJDFMgY','Flat Barbell Bench Press','Shoulder blades pinched. Lower slowly, don\'t bounce off chest.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Flat Barbell Bench Press','push-a',4,10)">✎ Log</button></div><span class="last-logged" id="ll-Flat Barbell Bench Press"></span></td><td class="sets-col">4 × 10</td><td class="rest-col">90s</td></tr>
+        <tr><td><span class="ex-name">Incline DB Press</span><span class="ex-tip">30–45° incline. Controls upper chest. Lower weight slowly (3 sec).</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('0G2_XV7slIg','Incline Dumbbell Press','30–45° incline. Controls upper chest. Lower weight slowly in 3 sec.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Incline DB Press','push-a',4,10)">✎ Log</button></div><span class="last-logged" id="ll-Incline DB Press"></span></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Cable Chest Fly</span><span class="ex-tip">High-to-low cable. Slight bend in elbows. Squeeze hard at peak.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('Iwe6AmxVf7o','Cable Chest Fly','High-to-low cable. Slight bend in elbows. Squeeze hard at peak.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Cable Chest Fly','push-a',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Cable Chest Fly"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">60s</td></tr>
+        <tr><td><span class="ex-name">DB Shoulder Press</span><span class="ex-tip">Don't lock out at top. Control the descent. Elbows at 90° at bottom.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('qEwKCR5JCog','Dumbbell Shoulder Press','Don\'t lock out at the top. Control the descent.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('DB Shoulder Press','push-a',3,12)">✎ Log</button></div><span class="last-logged" id="ll-DB Shoulder Press"></span></td><td class="sets-col">3 × 12</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Lateral Raises</span><span class="ex-tip">Lead with elbows, not wrists. Go light — form is everything.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('XPPfXQUEwcQ','Lateral Raises','Lead with elbows not wrists. Go light — form is everything.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Lateral Raises','push-a',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Lateral Raises"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Tricep Pushdown</span><span class="ex-tip">Lock elbows at sides. Full extension at bottom. Slow negative.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('2-LAMcpzODU','Cable Tricep Pushdown','Lock elbows at sides. Full extension at bottom. Slow negative.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Tricep Pushdown','push-a',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Tricep Pushdown"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Overhead Tricep Extension</span><span class="ex-tip">Single cable or EZ bar. Full stretch at top = long head activation.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('_gsUck-7M74','Overhead Tricep Extension','Single cable or EZ bar. Full stretch at top activates long head.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Overhead Tricep Extension','push-a',3,12)">✎ Log</button></div><span class="last-logged" id="ll-Overhead Tricep Extension"></span></td><td class="sets-col">3 × 12</td><td class="rest-col">45s</td></tr>
+      </tbody>
+    </table></div>
+    <div class="finisher-box"><div class="finisher-dot" style="background:#7f77dd"></div><div class="finisher-text"><strong>Finisher (10 min):</strong> Treadmill intervals — 1 min sprint + 1 min walk × 5 rounds.</div></div>
   </div>
 
   <!-- PULL A -->
@@ -133,20 +186,18 @@
         <div class="meta-item">Intensity: <span class="meta-val">High (Deadlift day)</span></div>
       </div>
     </div>
-    <div class="card">
-      <table>
-        <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
-        <tbody>
-          <tr><td><span class="ex-name">Conventional Deadlift</span><span class="ex-tip">King of all lifts. Neutral spine, drive through heels. Warm up with 2 light sets first.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('op9kVnSso6Q','Conventional Deadlift','Neutral spine, drive through heels. Always warm up with 2 lighter sets first.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 6</td><td class="rest-col">2 min</td></tr>
-          <tr><td><span class="ex-name">Lat Pulldown (wide grip)</span><span class="ex-tip">Pull to upper chest, not behind neck. Lean back 15° only. Squeeze lats at bottom.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('CAwf7n6Luuc','Lat Pulldown Form','Pull to upper chest, not behind neck. Lean back 15° only. Squeeze lats hard.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Seated Cable Row</span><span class="ex-tip">Neutral grip attachment. Elbows drive back, not flared. Hold 1 sec at peak contraction.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('GZbfZ033f74','Seated Cable Row','Neutral grip. Elbows drive back not flared. Hold 1 sec at peak contraction.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Face Pulls</span><span class="ex-tip">Cable at eye level, rope attachment. Pull to face, elbows high. Critical for shoulder health.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('eIq5CB9JfKE','Face Pulls Proper Form','Cable at eye level, rope attachment. Pull to face with elbows high.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">DB Hammer Curl</span><span class="ex-tip">Neutral grip (thumbs up). Builds brachialis — adds width between bicep and elbow.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('zC3nLlEvin4','Hammer Curl Technique','Neutral grip thumbs-up position. Builds brachialis for arm width.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 12</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Barbell Curl</span><span class="ex-tip">Don't swing. Elbows stay pinned at sides. Squeeze hard at top.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('kwG2ipFRgfo','Barbell Bicep Curl','Don\'t swing. Elbows stay pinned at sides. Squeeze hard at top.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 10</td><td class="rest-col">45s</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="finisher-box"><div class="finisher-dot" style="background:#1d9e75;"></div><div class="finisher-text"><strong>Finisher (10 min):</strong> Incline treadmill walk — speed 5.5, incline 10 for 10 min steady. Easy on joints, high calorie burn.</div></div>
+    <div class="card"><table>
+      <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Conventional Deadlift</span><span class="ex-tip">Neutral spine, drive through heels. Warm up with 2 light sets first.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('op9kVnSso6Q','Conventional Deadlift','Neutral spine. Drive through heels. Always warm up with lighter sets.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Conventional Deadlift','pull-a',4,6)">✎ Log</button></div><span class="last-logged" id="ll-Conventional Deadlift"></span></td><td class="sets-col">4 × 6</td><td class="rest-col">2 min</td></tr>
+        <tr><td><span class="ex-name">Lat Pulldown</span><span class="ex-tip">Pull to upper chest, not behind neck. Lean back 15° only.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('CAwf7n6Luuc','Lat Pulldown','Pull to upper chest not behind neck. Lean back 15° only.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Lat Pulldown','pull-a',4,10)">✎ Log</button></div><span class="last-logged" id="ll-Lat Pulldown"></span></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Seated Cable Row</span><span class="ex-tip">Elbows drive back, not flared. Hold 1 sec at peak contraction.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('GZbfZ033f74','Seated Cable Row','Elbows drive back not flared. Hold 1 sec at peak contraction.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Seated Cable Row','pull-a',4,10)">✎ Log</button></div><span class="last-logged" id="ll-Seated Cable Row"></span></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Face Pulls</span><span class="ex-tip">Rope at eye level. Pull to face, elbows high. Critical for shoulder health.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('eIq5CB9JfKE','Face Pulls','Rope at eye level. Pull to face with elbows high.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Face Pulls','pull-a',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Face Pulls"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">DB Hammer Curl</span><span class="ex-tip">Neutral grip (thumbs up). Builds brachialis — adds arm width.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('zC3nLlEvin4','Hammer Curl','Neutral grip thumbs-up. Builds brachialis for arm width.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('DB Hammer Curl','pull-a',3,12)">✎ Log</button></div><span class="last-logged" id="ll-DB Hammer Curl"></span></td><td class="sets-col">3 × 12</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Barbell Curl</span><span class="ex-tip">Don't swing. Elbows pinned at sides. Squeeze hard at top.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('kwG2ipFRgfo','Barbell Curl','Don\'t swing. Elbows pinned at sides. Squeeze hard at top.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Barbell Curl','pull-a',3,10)">✎ Log</button></div><span class="last-logged" id="ll-Barbell Curl"></span></td><td class="sets-col">3 × 10</td><td class="rest-col">45s</td></tr>
+      </tbody>
+    </table></div>
+    <div class="finisher-box"><div class="finisher-dot" style="background:#1d9e75"></div><div class="finisher-text"><strong>Finisher (10 min):</strong> Incline treadmill walk — speed 5.5, incline 10 for 10 min steady.</div></div>
   </div>
 
   <!-- LEGS A -->
@@ -156,23 +207,21 @@
       <div class="header-meta">
         <div class="meta-item">Duration: <span class="meta-val">70–80 min</span></div>
         <div class="meta-item">Muscles: <span class="meta-val">Quads · Glutes · Calves · Core</span></div>
-        <div class="meta-item">Intensity: <span class="meta-val">High (most calories burned)</span></div>
+        <div class="meta-item">Intensity: <span class="meta-val">High</span></div>
       </div>
     </div>
-    <div class="card">
-      <table>
-        <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
-        <tbody>
-          <tr><td><span class="ex-name">Barbell Back Squat</span><span class="ex-tip">Heels shoulder-width, toes slightly out. Hit parallel. Don't cave knees inward.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('bEv6CCg2BC8','Barbell Back Squat','Shoulder-width stance, toes out. Hit parallel. Never cave the knees inward.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 10</td><td class="rest-col">90s</td></tr>
-          <tr><td><span class="ex-name">Leg Press</span><span class="ex-tip">Feet mid-plate. Don't lock knees. Go deep — 90° bend. Great volume builder.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('IZxyjW7MPJQ','Leg Press Proper Form','Feet mid-plate. Never lock knees. 90° bend for full range of motion.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 12</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Leg Extension</span><span class="ex-tip">Full extension, 1 sec squeeze at top. Control the weight down slowly.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('YyvSfVjQeL0','Leg Extension Machine','Full extension with 1 second squeeze at top. Slow controlled descent.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">60s</td></tr>
-          <tr><td><span class="ex-name">Romanian Deadlift</span><span class="ex-tip">Push hips back, soft knee bend. Bar stays close to legs. Feel hamstring stretch.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('_oyxBmf4Cx0','Romanian Deadlift','Push hips back with soft knees. Bar stays close to legs. Feel the hamstring stretch.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 12</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Standing Calf Raise</span><span class="ex-tip">Full range — all the way up, all the way down. 2 sec hold at top.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('gwLzBJYoWlQ','Standing Calf Raise','Full range of motion — all the way up and all the way down. 2 sec hold at top.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 20</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Plank</span><span class="ex-tip">Neutral spine, don't let hips sag or pike. Brace like you're about to get punched.</span><div class="ex-badges"><span class="badge b-core">core</span><button class="watch-btn" onclick="openVideo('pSHjTRCQxIw','Plank Proper Form','Neutral spine throughout. Don\'t sag hips or pike. Brace your core hard.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 45 sec</td><td class="rest-col">30s</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="finisher-box"><div class="finisher-dot" style="background:#ba7517;"></div><div class="finisher-text"><strong>Finisher (15 min):</strong> Cycle ergometer at moderate resistance. Legs are already taxed — keep RPE at 6/10 for pure fat burn.</div></div>
+    <div class="card"><table>
+      <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Barbell Back Squat</span><span class="ex-tip">Shoulder-width stance, toes slightly out. Hit parallel. No knee cave.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('bEv6CCg2BC8','Barbell Squat','Shoulder-width stance, toes out. Hit parallel. Never cave knees inward.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Barbell Back Squat','legs-a',4,10)">✎ Log</button></div><span class="last-logged" id="ll-Barbell Back Squat"></span></td><td class="sets-col">4 × 10</td><td class="rest-col">90s</td></tr>
+        <tr><td><span class="ex-name">Leg Press</span><span class="ex-tip">Feet mid-plate. Don't lock knees. 90° bend for full range.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('IZxyjW7MPJQ','Leg Press','Feet mid-plate. Don\'t lock knees. 90° bend for full range of motion.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Leg Press','legs-a',4,12)">✎ Log</button></div><span class="last-logged" id="ll-Leg Press"></span></td><td class="sets-col">4 × 12</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Leg Extension</span><span class="ex-tip">Full extension, 1 sec squeeze at top. Control the weight down.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('YyvSfVjQeL0','Leg Extension','Full extension with 1 sec squeeze. Slow controlled descent.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Leg Extension','legs-a',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Leg Extension"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">60s</td></tr>
+        <tr><td><span class="ex-name">Romanian Deadlift</span><span class="ex-tip">Push hips back, soft knee bend. Feel hamstring stretch.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('_oyxBmf4Cx0','Romanian Deadlift','Push hips back with soft knees. Bar stays close. Feel the hamstring stretch.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Romanian Deadlift','legs-a',3,12)">✎ Log</button></div><span class="last-logged" id="ll-Romanian Deadlift"></span></td><td class="sets-col">3 × 12</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Standing Calf Raise</span><span class="ex-tip">Full range — all the way up and down. 2 sec hold at top.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('gwLzBJYoWlQ','Standing Calf Raise','Full range of motion. All the way up and down. 2 sec hold at top.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Standing Calf Raise','legs-a',4,20)">✎ Log</button></div><span class="last-logged" id="ll-Standing Calf Raise"></span></td><td class="sets-col">4 × 20</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Plank</span><span class="ex-tip">Neutral spine, don't sag hips. Brace hard.</span><div class="ex-badges"><span class="badge b-core">core</span><button class="watch-btn" onclick="openVideo('pSHjTRCQxIw','Plank','Neutral spine. Don\'t sag hips or pike. Brace your core hard.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Plank','legs-a',3,45)">✎ Log</button></div><span class="last-logged" id="ll-Plank"></span></td><td class="sets-col">3 × 45s</td><td class="rest-col">30s</td></tr>
+      </tbody>
+    </table></div>
+    <div class="finisher-box"><div class="finisher-dot" style="background:#ba7517"></div><div class="finisher-text"><strong>Finisher (15 min):</strong> Cycle ergometer at moderate resistance. RPE 6/10.</div></div>
   </div>
 
   <!-- PUSH B -->
@@ -185,21 +234,19 @@
         <div class="meta-item">Intensity: <span class="meta-val">Moderate–High</span></div>
       </div>
     </div>
-    <div class="card">
-      <table>
-        <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
-        <tbody>
-          <tr><td><span class="ex-name">Overhead Barbell Press (OHP)</span><span class="ex-tip">Standing. Core tight. Push bar in straight line overhead. Don't flare elbows.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('2yjwXTZQDDI','Overhead Press Form','Standing. Core tight. Push bar in a straight line overhead. Don\'t flare elbows.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 8</td><td class="rest-col">90s</td></tr>
-          <tr><td><span class="ex-name">Incline Barbell Press</span><span class="ex-tip">45° angle. Builds upper chest. Different angle from Monday = more stimulation.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('IP7HmVs_kHo','Incline Barbell Bench Press','45° incline. Hits upper chest from a different angle than Monday\'s flat press.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">DB Lateral Raise</span><span class="ex-tip">Slight front tilt of dumbbell (pinky higher). Builds that wide shoulder look.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('XPPfXQUEwcQ','Lateral Raises Technique','Pinky slightly higher than thumb. Builds width and the capped shoulder look.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 15</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Rear Delt DB Fly</span><span class="ex-tip">Bend over 90°, elbows slightly bent. Most people skip this — don't. Prevents imbalance.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('ttvAC3QW7OQ','Rear Delt Fly','Hinge forward 90°. Elbows slightly bent. Most people skip this — huge mistake.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Low-to-High Cable Fly</span><span class="ex-tip">Hits upper chest from below. Full arm arc motion. Squeeze at top.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('Iwe6AmxVf7o','Low to High Cable Fly','Cable starts low, cross arms up high. Targets upper chest. Squeeze at peak.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">60s</td></tr>
-          <tr><td><span class="ex-name">Tricep Dips (assisted machine)</span><span class="ex-tip">Lean forward slightly for more chest. Upright = pure triceps. Full extension at bottom.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('2z8JmcrW-As','Tricep Dips','Lean forward for chest emphasis. Stay upright for pure triceps. Full extension.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 12</td><td class="rest-col">60s</td></tr>
-          <tr><td><span class="ex-name">Skull Crushers (EZ bar)</span><span class="ex-tip">Lower slowly to forehead level. Elbows stay still. Great long-head builder.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('d_KZxkY_0cM','Skull Crushers EZ Bar','Lower the bar slowly to forehead. Elbows pinned still throughout the movement.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 10</td><td class="rest-col">45s</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="finisher-box"><div class="finisher-dot" style="background:#7f77dd;"></div><div class="finisher-text"><strong>Finisher (10 min):</strong> Rowing machine — 10 min moderate pace. Full-body calorie burn, also works the back lightly as active recovery.</div></div>
+    <div class="card"><table>
+      <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Overhead Press (OHP)</span><span class="ex-tip">Standing. Core tight. Push bar straight up. Don't flare elbows.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('2yjwXTZQDDI','Overhead Press','Standing. Core tight. Push bar straight up. Don\'t flare elbows.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Overhead Press (OHP)','push-b',4,8)">✎ Log</button></div><span class="last-logged" id="ll-Overhead Press (OHP)"></span></td><td class="sets-col">4 × 8</td><td class="rest-col">90s</td></tr>
+        <tr><td><span class="ex-name">Incline Barbell Press</span><span class="ex-tip">45° angle. Hits upper chest. Different angle from Monday.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('IP7HmVs_kHo','Incline Barbell Press','45° incline. Different angle from Monday for more chest stimulation.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Incline Barbell Press','push-b',4,10)">✎ Log</button></div><span class="last-logged" id="ll-Incline Barbell Press"></span></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">DB Lateral Raise</span><span class="ex-tip">Pinky slightly higher than thumb. Builds wide shoulder look.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('XPPfXQUEwcQ','Lateral Raise','Pinky slightly higher. Builds the wide capped shoulder look.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('DB Lateral Raise','push-b',4,15)">✎ Log</button></div><span class="last-logged" id="ll-DB Lateral Raise"></span></td><td class="sets-col">4 × 15</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Rear Delt DB Fly</span><span class="ex-tip">Hinge 90°, elbows slightly bent. Don't skip this — prevents imbalance.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('ttvAC3QW7OQ','Rear Delt Fly','Hinge 90°. Elbows slightly bent. Prevents shoulder imbalance.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Rear Delt DB Fly','push-b',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Rear Delt DB Fly"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Low-to-High Cable Fly</span><span class="ex-tip">Hits upper chest from below. Full arm arc. Squeeze at top.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('Iwe6AmxVf7o','Low to High Cable Fly','Cable starts low. Full arc motion to target upper chest. Squeeze at peak.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Low-to-High Cable Fly','push-b',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Low-to-High Cable Fly"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">60s</td></tr>
+        <tr><td><span class="ex-name">Tricep Dips</span><span class="ex-tip">Lean forward for chest. Upright = pure triceps. Full extension.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('2z8JmcrW-As','Tricep Dips','Lean forward for chest. Stay upright for pure triceps. Full extension.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Tricep Dips','push-b',3,12)">✎ Log</button></div><span class="last-logged" id="ll-Tricep Dips"></span></td><td class="sets-col">3 × 12</td><td class="rest-col">60s</td></tr>
+        <tr><td><span class="ex-name">Skull Crushers</span><span class="ex-tip">Lower slowly to forehead. Elbows stay still throughout.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('d_KZxkY_0cM','Skull Crushers','Lower the bar slowly to forehead. Elbows pinned still throughout.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Skull Crushers','push-b',3,10)">✎ Log</button></div><span class="last-logged" id="ll-Skull Crushers"></span></td><td class="sets-col">3 × 10</td><td class="rest-col">45s</td></tr>
+      </tbody>
+    </table></div>
+    <div class="finisher-box"><div class="finisher-dot" style="background:#7f77dd"></div><div class="finisher-text"><strong>Finisher (10 min):</strong> Rowing machine — 10 min moderate pace.</div></div>
   </div>
 
   <!-- PULL B -->
@@ -209,23 +256,21 @@
       <div class="header-meta">
         <div class="meta-item">Duration: <span class="meta-val">65–75 min</span></div>
         <div class="meta-item">Muscles: <span class="meta-val">Lats · Traps · Rear Delts · Biceps</span></div>
-        <div class="meta-item">Intensity: <span class="meta-val">Moderate (no deadlift)</span></div>
+        <div class="meta-item">Intensity: <span class="meta-val">Moderate</span></div>
       </div>
     </div>
-    <div class="card">
-      <table>
-        <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
-        <tbody>
-          <tr><td><span class="ex-name">Pull-ups / Assisted Pull-ups</span><span class="ex-tip">Dead hang at bottom, chin above bar at top. Use assisted machine if needed.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('popio1hPSBA','Pull-up Proper Form','Full dead hang at the bottom. Chin clears the bar at top. Use assisted if needed.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 8</td><td class="rest-col">90s</td></tr>
-          <tr><td><span class="ex-name">Barbell Bent-over Row</span><span class="ex-tip">Overhand grip. Hinge at hips to 45°. Pull to belly button. Don't round your lower back.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('FWJR5Ve8bnQ','Barbell Bent-over Row','Overhand grip, hinge to 45°. Pull to belly button. Keep lower back straight.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Single Arm DB Row</span><span class="ex-tip">Knee and same-side hand on bench. Big range of motion — elbow past your back at top.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('pYcpY20QaA8','Single Arm Dumbbell Row','Support on bench. Big range of motion — pull elbow way past your back at top.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 12 each</td><td class="rest-col">60s</td></tr>
-          <tr><td><span class="ex-name">Straight Arm Pulldown</span><span class="ex-tip">Cable overhead, straight arms, pull down to hips. Pure lat isolation.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('it7BVOoMKd4','Straight Arm Lat Pulldown','Cable set high. Arms stay straight throughout. Pull bar down to hips. Pure lat work.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Incline DB Curl</span><span class="ex-tip">Seated on incline bench, arms hang behind body. Best bicep stretch. Goes slow.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('MxvPJhEeETo','Incline Dumbbell Curl','Sit on incline bench. Arms hang back behind the body. Huge bicep stretch at bottom.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 12</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Concentration Curl</span><span class="ex-tip">Seated, elbow on inner thigh. Pure curl, no swing. Full squeeze at top.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('Zb6KMmrqxbw','Concentration Curl','Seated with elbow on inner thigh. Pure curl with no body swing. Squeeze at top.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 12 each</td><td class="rest-col">45s</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="finisher-box"><div class="finisher-dot" style="background:#1d9e75;"></div><div class="finisher-text"><strong>Finisher (10 min):</strong> Stairmaster or treadmill incline walk. Posterior chain warm-up for tomorrow's Legs B.</div></div>
+    <div class="card"><table>
+      <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Pull-ups / Assisted Pull-ups</span><span class="ex-tip">Dead hang at bottom, chin above bar at top.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('popio1hPSBA','Pull-ups','Full dead hang at the bottom. Chin clears the bar at top.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Pull-ups / Assisted Pull-ups','pull-b',4,8)">✎ Log</button></div><span class="last-logged" id="ll-Pull-ups / Assisted Pull-ups"></span></td><td class="sets-col">4 × 8</td><td class="rest-col">90s</td></tr>
+        <tr><td><span class="ex-name">Barbell Bent-over Row</span><span class="ex-tip">Hinge to 45°. Pull to belly button. Don't round lower back.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('FWJR5Ve8bnQ','Bent-over Row','Hinge to 45°. Pull to belly button. Keep lower back straight.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Barbell Bent-over Row','pull-b',4,10)">✎ Log</button></div><span class="last-logged" id="ll-Barbell Bent-over Row"></span></td><td class="sets-col">4 × 10</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Single Arm DB Row</span><span class="ex-tip">Elbow past your back at top. Big range of motion.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('pYcpY20QaA8','Single Arm DB Row','Support on bench. Big range — pull elbow well past your back.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Single Arm DB Row','pull-b',3,12)">✎ Log</button></div><span class="last-logged" id="ll-Single Arm DB Row"></span></td><td class="sets-col">3 × 12e</td><td class="rest-col">60s</td></tr>
+        <tr><td><span class="ex-name">Straight Arm Pulldown</span><span class="ex-tip">Arms stay straight. Pull cable from overhead to hips. Pure lats.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('it7BVOoMKd4','Straight Arm Pulldown','Arms stay straight. Pull from overhead to hips. Pure lat isolation.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Straight Arm Pulldown','pull-b',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Straight Arm Pulldown"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Incline DB Curl</span><span class="ex-tip">Arms hang behind body on incline bench. Best bicep stretch.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('MxvPJhEeETo','Incline DB Curl','Arms hang behind body. Huge bicep stretch at the bottom.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Incline DB Curl','pull-b',3,12)">✎ Log</button></div><span class="last-logged" id="ll-Incline DB Curl"></span></td><td class="sets-col">3 × 12</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Concentration Curl</span><span class="ex-tip">Elbow on inner thigh. No swing. Full squeeze at top.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('Zb6KMmrqxbw','Concentration Curl','Elbow on inner thigh. No body swing. Full squeeze at the top.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Concentration Curl','pull-b',3,12)">✎ Log</button></div><span class="last-logged" id="ll-Concentration Curl"></span></td><td class="sets-col">3 × 12e</td><td class="rest-col">45s</td></tr>
+      </tbody>
+    </table></div>
+    <div class="finisher-box"><div class="finisher-dot" style="background:#1d9e75"></div><div class="finisher-text"><strong>Finisher (10 min):</strong> Stairmaster or incline walk — warm-up for tomorrow's Legs B.</div></div>
   </div>
 
   <!-- LEGS B -->
@@ -238,21 +283,19 @@
         <div class="meta-item">Intensity: <span class="meta-val">High</span></div>
       </div>
     </div>
-    <div class="card">
-      <table>
-        <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
-        <tbody>
-          <tr><td><span class="ex-name">Romanian Deadlift</span><span class="ex-tip">Primary hamstring builder. Bar close to legs, big hip hinge. Feel the stretch.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('_oyxBmf4Cx0','Romanian Deadlift','Bar stays close to legs. Big hip hinge. Feel the deep hamstring stretch at the bottom.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 10</td><td class="rest-col">90s</td></tr>
-          <tr><td><span class="ex-name">Bulgarian Split Squat</span><span class="ex-tip">Rear foot on bench. Front foot far out. This will burn. Best single-leg exercise.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('2C-uNgKwPLE','Bulgarian Split Squat','Rear foot elevated on bench. Front foot far forward. The best single-leg exercise.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 10 each</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Lying Leg Curl</span><span class="ex-tip">Curl heels toward glutes, flex hard at top. Hips flat on pad. Slow negative (3 sec).</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('1Tq3QdYUuHs','Lying Leg Curl','Curl heels to glutes and flex hard at top. Keep hips flat on pad throughout.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 12</td><td class="rest-col">60s</td></tr>
-          <tr><td><span class="ex-name">Hip Thrust</span><span class="ex-tip">Upper back on bench, bar on hips. Drive hips explosively up. Squeeze glutes at top.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('SEdqd5V6MH8','Hip Thrust Proper Form','Upper back on bench, bar on hips. Drive explosively up and squeeze glutes for 1 sec.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 12</td><td class="rest-col">75s</td></tr>
-          <tr><td><span class="ex-name">Leg Press (high foot placement)</span><span class="ex-tip">Feet high on platform = shifts work to hamstrings and glutes instead of quads.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('IZxyjW7MPJQ','Leg Press High Foot Placement','Place feet high on the platform to shift the load from quads to hamstrings and glutes.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">60s</td></tr>
-          <tr><td><span class="ex-name">Seated Calf Raise</span><span class="ex-tip">Hits soleus (inner calf). Full range, 2 sec pause at bottom stretch.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('JbyjNLoFx-4','Seated Calf Raise','Hits the soleus muscle. Full range of motion with a 2 second pause at the bottom.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">4 × 20</td><td class="rest-col">45s</td></tr>
-          <tr><td><span class="ex-name">Cable Crunches</span><span class="ex-tip">Rope attachment, kneel facing cable. Curl ribs to hips — not head to knees. Controlled.</span><div class="ex-badges"><span class="badge b-core">core</span><button class="watch-btn" onclick="openVideo('ub4MFvRzp6A','Cable Crunch Form','Rope attachment, kneeling. Curl your ribs toward your hips — not head to knees.')"><span class="play-icon"></span>Watch</button></div></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="finisher-box"><div class="finisher-dot" style="background:#ba7517;"></div><div class="finisher-text"><strong>No cardio finisher today.</strong> Your legs have done enough. Walk 20 min in the evening instead.</div></div>
+    <div class="card"><table>
+      <thead><tr><th>Exercise</th><th class="sets-col">Sets × Reps</th><th class="rest-col">Rest</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ex-name">Romanian Deadlift</span><span class="ex-tip">Bar close to legs, big hip hinge. Feel the stretch, not the round.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('_oyxBmf4Cx0','Romanian Deadlift','Bar stays close. Big hip hinge. Feel the deep hamstring stretch.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Romanian Deadlift (B)','legs-b',4,10)">✎ Log</button></div><span class="last-logged" id="ll-Romanian Deadlift (B)"></span></td><td class="sets-col">4 × 10</td><td class="rest-col">90s</td></tr>
+        <tr><td><span class="ex-name">Bulgarian Split Squat</span><span class="ex-tip">Rear foot on bench. Front foot far forward. This will burn.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('2C-uNgKwPLE','Bulgarian Split Squat','Rear foot elevated on bench. Front foot far forward. Best single-leg exercise.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Bulgarian Split Squat','legs-b',3,10)">✎ Log</button></div><span class="last-logged" id="ll-Bulgarian Split Squat"></span></td><td class="sets-col">3 × 10e</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Lying Leg Curl</span><span class="ex-tip">Curl heels to glutes. Hips flat on pad. Slow negative (3 sec).</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('1Tq3QdYUuHs','Lying Leg Curl','Curl heels to glutes. Keep hips flat on pad. Slow 3-second negative.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Lying Leg Curl','legs-b',4,12)">✎ Log</button></div><span class="last-logged" id="ll-Lying Leg Curl"></span></td><td class="sets-col">4 × 12</td><td class="rest-col">60s</td></tr>
+        <tr><td><span class="ex-name">Hip Thrust</span><span class="ex-tip">Upper back on bench. Drive hips up explosively. Squeeze glutes 1 sec.</span><div class="ex-badges"><span class="badge b-compound">compound</span><button class="watch-btn" onclick="openVideo('SEdqd5V6MH8','Hip Thrust','Upper back on bench. Drive explosively up. Squeeze glutes for 1 sec at top.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Hip Thrust','legs-b',4,12)">✎ Log</button></div><span class="last-logged" id="ll-Hip Thrust"></span></td><td class="sets-col">4 × 12</td><td class="rest-col">75s</td></tr>
+        <tr><td><span class="ex-name">Leg Press (high foot)</span><span class="ex-tip">Feet high on platform shifts work to hamstrings and glutes.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('IZxyjW7MPJQ','Leg Press High Foot','Feet high on platform shifts load from quads to hamstrings and glutes.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Leg Press (high foot)','legs-b',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Leg Press (high foot)"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">60s</td></tr>
+        <tr><td><span class="ex-name">Seated Calf Raise</span><span class="ex-tip">Hits soleus (inner calf). Full range, 2 sec pause at bottom.</span><div class="ex-badges"><span class="badge b-iso">isolation</span><button class="watch-btn" onclick="openVideo('JbyjNLoFx-4','Seated Calf Raise','Hits soleus. Full range with 2 second pause at the bottom stretch.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Seated Calf Raise','legs-b',4,20)">✎ Log</button></div><span class="last-logged" id="ll-Seated Calf Raise"></span></td><td class="sets-col">4 × 20</td><td class="rest-col">45s</td></tr>
+        <tr><td><span class="ex-name">Cable Crunches</span><span class="ex-tip">Kneel facing cable. Curl ribs to hips — not head to knees.</span><div class="ex-badges"><span class="badge b-core">core</span><button class="watch-btn" onclick="openVideo('ub4MFvRzp6A','Cable Crunch','Kneeling. Curl ribs toward hips — not head to knees. Controlled.')"><span class="play-icon"></span>Watch</button><button class="log-btn" onclick="openLog('Cable Crunches','legs-b',3,15)">✎ Log</button></div><span class="last-logged" id="ll-Cable Crunches"></span></td><td class="sets-col">3 × 15</td><td class="rest-col">45s</td></tr>
+      </tbody>
+    </table></div>
+    <div class="finisher-box"><div class="finisher-dot" style="background:#ba7517"></div><div class="finisher-text"><strong>No cardio finisher today.</strong> Walk 20 min in the evening instead.</div></div>
   </div>
 
   <!-- REST -->
@@ -265,30 +308,40 @@
       </div>
     </div>
     <div class="rest-box">
-      <strong style="color:#1a1a18; display:block; margin-bottom:8px;">Rest is not optional — it's training.</strong>
-      Muscles don't grow in the gym. They grow in the 48 hrs after, during recovery.<br>
-      ✓ &nbsp;Still hit 190g protein today — muscle doesn't know it's a rest day<br>
-      ✓ &nbsp;A 20–30 min walk is fine and actually speeds up recovery<br>
-      ✓ &nbsp;Sleep 8+ hours — peak growth hormone is released during deep sleep<br>
+      <strong style="color:#1a1a18;display:block;margin-bottom:8px">Rest is not optional — it's training.</strong>
+      Muscles grow during recovery, not during the workout.<br>
+      ✓ &nbsp;Still hit 190g protein — muscle doesn't know it's a rest day<br>
+      ✓ &nbsp;20–30 min walk is fine and speeds up recovery<br>
+      ✓ &nbsp;Sleep 8+ hours — peak growth hormone during deep sleep<br>
       ✓ &nbsp;Foam roll or stretch if legs are sore from Saturday
     </div>
   </div>
 
+  <!-- HISTORY PANEL -->
+  <div class="day-panel" id="history">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+      <div>
+        <div style="font-size:16px;font-weight:600;color:#1a1a18">Workout History</div>
+        <div style="font-size:12px;color:#888780;margin-top:2px">All logged exercises across all days</div>
+      </div>
+      <button class="clear-all-btn" onclick="clearAllLogs()" style="margin:0">Clear all</button>
+    </div>
+    <div id="history-content"></div>
+  </div>
+
   <div class="week-note">
-    <strong>Progressive overload:</strong> Every 2 weeks, increase weight by 2.5–5 kg on compound lifts (Bench, Squat, Deadlift, OHP) or add 1–2 reps per set. The moment it feels easy — it's time to add load.
+    <strong>Progressive overload:</strong> Every 2 weeks, add 2.5–5 kg on compound lifts or 1–2 reps per set. The moment a session feels easy — it's time to add load.
   </div>
 </div>
 
 <!-- VIDEO MODAL -->
-<div class="modal-overlay" id="videoModal" onclick="handleOverlayClick(event)">
+<div class="modal-overlay" id="videoModal" onclick="handleVidOverlay(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
       <div class="modal-title" id="modalTitle">Exercise Tutorial</div>
       <button class="modal-close" onclick="closeVideo()">✕</button>
     </div>
-    <div class="modal-video">
-      <iframe id="ytFrame" src="" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
-    </div>
+    <div class="modal-video"><iframe id="ytFrame" src="" allowfullscreen allow="autoplay;encrypted-media;picture-in-picture"></iframe></div>
     <div class="modal-footer">
       <div class="modal-tip" id="modalTip"></div>
       <a id="modalYTLink" class="modal-yt-link" href="#" target="_blank" rel="noopener">Open in YouTube ↗</a>
@@ -296,32 +349,265 @@
   </div>
 </div>
 
+<!-- LOG MODAL -->
+<div class="log-overlay" id="logModal" onclick="handleLogOverlay(event)">
+  <div class="log-box" onclick="event.stopPropagation()">
+    <div class="log-header">
+      <div class="log-title" id="logModalTitle">Log Exercise</div>
+      <button class="log-close" onclick="closeLog()">✕</button>
+    </div>
+    <div class="log-body">
+      <div class="log-prev" id="logPrev"></div>
+      <div class="log-section-label">Sets performed</div>
+      <div class="set-header">
+        <span>#</span><span>Weight (kg)</span><span>Reps</span><span></span>
+      </div>
+      <div class="set-rows" id="setRows"></div>
+      <button class="add-set-btn" onclick="addSetRow()">+ Add set</button>
+      <div class="log-section-label">Notes (optional)</div>
+      <textarea class="log-notes" id="logNotes" placeholder="e.g. felt strong, shoulder tight, new PR..."></textarea>
+    </div>
+    <div class="log-footer">
+      <button class="cancel-btn" onclick="closeLog()">Cancel</button>
+      <button class="save-btn" onclick="saveLog()">Save workout ✓</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  function show(id, el, activeClass) {
-    document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active-push','active-pull','active-legs','active-rest'));
-    el.classList.add(activeClass);
+// ── TAB SWITCHING ─────────────────────────────────────────
+function show(id, el, activeClass) {
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active-push','active-pull','active-legs','active-rest','active-history'));
+  el.classList.add(activeClass);
+  if (id === 'history') renderHistory();
+  if (id !== 'history') refreshLastLogged();
+}
+
+// ── VIDEO ─────────────────────────────────────────────────
+function openVideo(videoId, title, tip) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalTip').textContent = '💡 ' + tip;
+  document.getElementById('ytFrame').src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0&modestbranding=1';
+  document.getElementById('modalYTLink').href = 'https://www.youtube.com/watch?v=' + videoId;
+  document.getElementById('videoModal').classList.add('open');
+}
+function closeVideo() {
+  document.getElementById('ytFrame').src = '';
+  document.getElementById('videoModal').classList.remove('open');
+}
+function handleVidOverlay(e) { if (e.target===document.getElementById('videoModal')) closeVideo(); }
+
+// ── LOGGING ───────────────────────────────────────────────
+let currentEx = '', currentDay = '', currentTargetSets = 4, currentTargetReps = 10;
+
+function openLog(exName, dayId, targetSets, targetReps) {
+  currentEx = exName;
+  currentDay = dayId;
+  currentTargetSets = targetSets;
+  currentTargetReps = targetReps;
+  document.getElementById('logModalTitle').textContent = exName;
+  document.getElementById('logNotes').value = '';
+
+  // Show previous session
+  const prev = getLastLog(exName);
+  const prevEl = document.getElementById('logPrev');
+  if (prev) {
+    const setsStr = prev.sets.map(s => s.weight + 'kg × ' + s.reps).join('  ·  ');
+    prevEl.innerHTML = '<strong>Last session (' + formatDate(prev.date) + '):</strong> ' + setsStr;
+    prevEl.classList.add('show');
+  } else {
+    prevEl.classList.remove('show');
   }
 
-  function openVideo(videoId, title, tip) {
-    document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalTip').textContent = '💡 ' + tip;
-    document.getElementById('ytFrame').src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0&modestbranding=1';
-    document.getElementById('modalYTLink').href = 'https://www.youtube.com/watch?v=' + videoId;
-    document.getElementById('videoModal').classList.add('open');
+  // Build set rows
+  const rowsEl = document.getElementById('setRows');
+  rowsEl.innerHTML = '';
+  const lastWeight = prev && prev.sets.length ? prev.sets[0].weight : '';
+  for (let i = 1; i <= targetSets; i++) {
+    addSetRow(lastWeight, targetReps);
   }
 
-  function closeVideo() {
-    document.getElementById('ytFrame').src = '';
-    document.getElementById('videoModal').classList.remove('open');
-  }
+  document.getElementById('logModal').classList.add('open');
+}
 
-  function handleOverlayClick(e) {
-    if (e.target === document.getElementById('videoModal')) closeVideo();
-  }
+function addSetRow(weight='', reps='') {
+  const rowsEl = document.getElementById('setRows');
+  const n = rowsEl.children.length + 1;
+  const row = document.createElement('div');
+  row.className = 'set-row';
+  row.innerHTML =
+    '<span class="set-num">' + n + '</span>' +
+    '<input class="set-input" type="number" min="0" step="0.5" placeholder="kg" value="' + (weight||'') + '">' +
+    '<input class="set-input" type="number" min="0" step="1" placeholder="reps" value="' + (reps||'') + '">' +
+    '<button class="del-set" onclick="delSetRow(this)">×</button>';
+  rowsEl.appendChild(row);
+  renumberSets();
+}
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
+function delSetRow(btn) {
+  const row = btn.closest('.set-row');
+  if (document.getElementById('setRows').children.length > 1) {
+    row.remove();
+    renumberSets();
+  }
+}
+
+function renumberSets() {
+  document.querySelectorAll('#setRows .set-num').forEach((el,i) => el.textContent = i+1);
+}
+
+function closeLog() {
+  document.getElementById('logModal').classList.remove('open');
+}
+function handleLogOverlay(e) { if (e.target===document.getElementById('logModal')) closeLog(); }
+
+function saveLog() {
+  const rows = document.querySelectorAll('#setRows .set-row');
+  const sets = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const w = parseFloat(inputs[0].value);
+    const r = parseInt(inputs[1].value);
+    if (!isNaN(w) || !isNaN(r)) {
+      sets.push({ weight: isNaN(w)?0:w, reps: isNaN(r)?0:r });
+    }
+  });
+  if (!sets.length) { alert('Please enter at least one set.'); return; }
+
+  const entry = {
+    id: Date.now(),
+    date: new Date().toISOString().split('T')[0],
+    exercise: currentEx,
+    day: currentDay,
+    sets: sets,
+    notes: document.getElementById('logNotes').value.trim()
+  };
+
+  const logs = getLogs();
+  logs.unshift(entry);
+  localStorage.setItem('ppl_logs', JSON.stringify(logs));
+  closeLog();
+  refreshLastLogged();
+
+  // brief confirm flash
+  const btn = document.querySelector('.log-btn[onclick*="' + currentEx.replace(/'/g,"\\'").split('(')[0].trim() + '"]');
+  showSaveFlash();
+}
+
+function showSaveFlash() {
+  const flash = document.createElement('div');
+  flash.textContent = '✓ Logged!';
+  Object.assign(flash.style, {
+    position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)',
+    background:'#1a1a18', color:'#fff', padding:'10px 24px', borderRadius:'30px',
+    fontSize:'14px', fontWeight:'600', zIndex:'99999', opacity:'1',
+    transition:'opacity .4s', pointerEvents:'none'
+  });
+  document.body.appendChild(flash);
+  setTimeout(() => { flash.style.opacity='0'; setTimeout(()=>flash.remove(), 400); }, 1500);
+}
+
+// ── STORAGE ───────────────────────────────────────────────
+function getLogs() {
+  try { return JSON.parse(localStorage.getItem('ppl_logs') || '[]'); } catch { return []; }
+}
+function getLastLog(exName) {
+  return getLogs().find(l => l.exercise === exName) || null;
+}
+
+function refreshLastLogged() {
+  const logs = getLogs();
+  document.querySelectorAll('[id^="ll-"]').forEach(el => {
+    const exName = el.id.replace('ll-','');
+    const entry = logs.find(l => l.exercise === exName);
+    if (entry) {
+      const best = entry.sets.reduce((a,s)=>s.weight>a.weight?s:a, entry.sets[0]);
+      el.textContent = 'Last: ' + best.weight + 'kg × ' + best.reps + ' reps · ' + formatDate(entry.date);
+    } else {
+      el.textContent = '';
+    }
+  });
+}
+
+// ── HISTORY RENDER ────────────────────────────────────────
+const DAY_LABELS = {
+  'push-a':'Push A','pull-a':'Pull A','legs-a':'Legs A',
+  'push-b':'Push B','pull-b':'Pull B','legs-b':'Legs B'
+};
+const DAY_CLS = {
+  'push-a':'hb-push','pull-a':'hb-pull','legs-a':'hb-legs',
+  'push-b':'hb-push','pull-b':'hb-pull','legs-b':'hb-legs'
+};
+
+function renderHistory() {
+  const logs = getLogs();
+  const el = document.getElementById('history-content');
+  if (!logs.length) {
+    el.innerHTML = '<div class="history-empty">No workouts logged yet.<br><span style="font-size:13px;margin-top:6px;display:block;">Tap ✎ Log on any exercise to get started.</span></div>';
+    return;
+  }
+  const byDate = {};
+  logs.forEach(l => { if (!byDate[l.date]) byDate[l.date]=[]; byDate[l.date].push(l); });
+  let html = '';
+  Object.keys(byDate).sort((a,b)=>b.localeCompare(a)).forEach(date => {
+    html += '<div class="history-date-group">';
+    html += '<div class="history-date-label">' + formatDateFull(date) + '</div>';
+    byDate[date].forEach(entry => {
+      const setsStr = entry.sets.map(s => s.weight+'kg×'+s.reps).join(' · ');
+      const dayLabel = DAY_LABELS[entry.day] || entry.day;
+      const dayClass = DAY_CLS[entry.day] || '';
+      html += '<div class="history-entry">';
+      html += '<span class="history-day-badge ' + dayClass + '">' + dayLabel + '</span>';
+      html += '<div class="history-entry-content">';
+      html += '<div class="history-ex-name">' + entry.exercise + '</div>';
+      html += '<div class="history-sets">' + setsStr + '</div>';
+      if (entry.notes) html += '<div class="history-notes">' + entry.notes + '</div>';
+      html += '</div>';
+      html += '<button class="history-delete" onclick="deleteLog(' + entry.id + ')" title="Delete">×</button>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function deleteLog(id) {
+  const logs = getLogs().filter(l => l.id !== id);
+  localStorage.setItem('ppl_logs', JSON.stringify(logs));
+  renderHistory();
+}
+
+function clearAllLogs() {
+  if (confirm('Delete all workout logs? This cannot be undone.')) {
+    localStorage.removeItem('ppl_logs');
+    renderHistory();
+    refreshLastLogged();
+  }
+}
+
+// ── UTILS ─────────────────────────────────────────────────
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const diff = Math.round((new Date() - d) / 86400000);
+  if (diff === 0) return 'today';
+  if (diff === 1) return 'yesterday';
+  if (diff < 7) return diff + ' days ago';
+  return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+function formatDateFull(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+// ── KEYBOARD ──────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeVideo(); closeLog(); }
+});
+
+// ── INIT ──────────────────────────────────────────────────
+refreshLastLogged();
 </script>
 </body>
 </html>
